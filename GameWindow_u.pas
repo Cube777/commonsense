@@ -11,13 +11,14 @@ type
     tmrLimit: TTimer;
     imgMain: TImage;
     prgbTime: TProgressBar;
+    lblScore: TLabel;
+    Label1: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure tmrLimitTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure NextSpam();
   private
-    iTotal, iUsed : integer;
+    iTotal, iUsed, iScore : integer;
   public
     { Public declarations }
   end;
@@ -51,6 +52,7 @@ procedure TGameWindow.FormShow(Sender: TObject);
 begin
   iTotal := 10000;
   iUsed := 0;
+  iScore := 0;
   tmrLimit.Enabled := true;
 end;
 
@@ -59,11 +61,6 @@ begin
   MessageDlg('Now now, you can only exit when your''e PC is fully infected ;)',
   mtError, [mbOK], 0);
   Abort;
-end;
-
-procedure TGameWindow.NextSpam;
-begin
-//
 end;
 
 end.
