@@ -1,6 +1,6 @@
 object GameWindow: TGameWindow
-  Left = 314
-  Top = 129
+  Left = 292
+  Top = 133
   BorderStyle = bsNone
   Caption = 'GameWindow'
   ClientHeight = 668
@@ -28,13 +28,14 @@ object GameWindow: TGameWindow
     Height = 569
     Anchors = [akLeft, akTop, akRight, akBottom]
     Center = True
-    Proportional = True
     Transparent = True
+    OnClick = imgMainClick
+    OnDblClick = imgMainDblClick
   end
   object lblScore: TLabel
     Left = 48
     Top = 627
-    Width = 249
+    Width = 128
     Height = 24
     Anchors = [akLeft, akBottom]
     Caption = 'Score: 0'
