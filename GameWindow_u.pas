@@ -16,6 +16,8 @@ type
     imgResult1: TImage;
     imgResult2: TImage;
     tmrFlash: TTimer;
+    tmrPause: TTimer;
+    tmrDestroy: TTimer;
     procedure FormCreate(Sender: TObject);
     procedure tmrLimitTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -24,11 +26,16 @@ type
     //Returns true for correct answer, false for incorrect
     function CheckAnswer(x, y : integer) : boolean;
     procedure imgMainClick(Sender: TObject);
-    procedure imgMainDblClick(Sender: TObject);
     procedure tmrFlashTimer(Sender: TObject);
+    procedure tmrPauseTimer(Sender: TObject);
+    procedure rightAnswer();
+    procedure wrongAnswer();
+    procedure GameOver();
+    procedure tmrDestroyTimer(Sender: TObject);
   private
-    iTotal, iLeft, iScore : integer;
-    tx, ty, bx, by : integer; //Answer co-ordinates
+    iTotal, iLeft, iScore, iInfections : integer;
+    tx, ty, bx, by, iDestroyed : integer; //Answer co-ordinates
+    tCorrect, bgameOver : boolean;
   public
     { Public declarations }
   end;
@@ -46,6 +53,8 @@ procedure TGameWindow.FormCreate(Sender: TObject);
 begin
   self.Width := Screen.DesktopWidth;
   self.Height := Screen.DesktopHeight;
+  self.Left := 0;
+  self.Top := 0;
 end;
 
 procedure TGameWindow.tmrLimitTimer(Sender: TObject);
@@ -53,23 +62,36 @@ begin
   if iLeft <> 0 then
   begin
     iLeft := iLeft - 100;
-    self.prgbTime.Position := floor(iLeft / iTotal * 100);
+    self.prgbTime.Position := floor(iLeft / iTotal * 100)
+  end
+  else
+  begin
+    self.imgResult1.Picture.LoadFromFile('rsc/wrong-cross.jpg');
+    self.imgResult2.Picture.LoadFromFile('rsc/wrong-cross.jpg');
+    sndPlaySound('rsc/wth.wav', SND_ASYNC);
+
+    self.tmrPause.Enabled := true;
+    self.tmrFlash.Enabled := true;
+    self.tmrLimit.Enabled := false;
   end;
 end;
 
 procedure TGameWindow.FormShow(Sender: TObject);
 begin;
+  self.bgameOver := false;
   iTotal := 10000;
-  iLeft := iTotal;
+  iInfections := 0;
+  iScore := 0;
+  Randomize;
   self.NextImage;
-  //self.imgMain.Picture.LoadFromFile('rsc/spam.bmp');
-
 end;
 
 procedure TGameWindow.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  MessageDlg('Now now, you can only exit when your''e PC is fully infected ;)',
-  mtError, [mbOK], 0);
+  if self.bgameOver then
+    exit;
+
+  MessageDlg('Now now, you can only exit when your''e PC is fully infected ;)', mtError, [mbOK], 0);
   Abort;
 end;
 
@@ -78,8 +100,10 @@ var
 recNum, i, rand : Integer;
 ans, temp : string;
 begin
-  Randomize;
-  self.tmrLimit.Enabled := false;
+  if self.bgameOver then
+    exit;
+
+  self.iLeft := iTotal;
   self.tmrFlash.Enabled := false;
   self.imgResult1.Hide;
   self.imgResult2.Hide;
@@ -108,6 +132,7 @@ begin
   self.imgMain.Height := self.imgMain.Picture.Height;
   self.imgMain.Left := (self.ClientWidth - self.imgMain.Width) div 2;
   self.imgMain.Top := (Self.ClientHeight - 100 - self.imgMain.Height) div 2;
+  self.imgMain.Show;
 
   //Set up answer co-ordinates
   ans := datModule.tblSpamDat['Answer'];
@@ -140,7 +165,7 @@ flg : boolean;
 begin
   flg := CheckAnswer(Mouse.CursorPos.X - self.imgMain.Left,
   Mouse.CursorPos.Y - self.imgMain.Top);
-
+  self.tCorrect := flg;
   //flg will be true if answer is correct and false if answer is incorrect
 
   if flg then
@@ -148,15 +173,18 @@ begin
     self.imgResult1.Picture.LoadFromFile('rsc/checkmark.bmp');
     self.imgResult2.Picture.LoadFromFile('rsc/checkmark.bmp');
     sndPlaySound('rsc/tada.wav', SND_ASYNC);
-
   end
   else
   begin
     self.imgResult1.Picture.LoadFromFile('rsc/wrong-cross.jpg');
     self.imgResult2.Picture.LoadFromFile('rsc/wrong-cross.jpg');
+    sndPlaySound('rsc/wth.wav', SND_ASYNC);
   end;
+  self.imgMain.Hide;
 
+  self.tmrPause.Enabled := true;
   self.tmrFlash.Enabled := true;
+  self.tmrLimit.Enabled := false;
 end;
 
 function TGameWindow.CheckAnswer(x, y: integer): boolean;
@@ -172,15 +200,73 @@ begin
   result := true;
 end;
 
-procedure TGameWindow.imgMainDblClick(Sender: TObject);
-begin
-  self.NextImage;
-end;
-
 procedure TGameWindow.tmrFlashTimer(Sender: TObject);
 begin
   imgResult1.Visible := not imgResult1.Visible;
   imgResult2.Visible := not imgResult2.Visible;
+end;
+
+procedure TGameWindow.tmrPauseTimer(Sender: TObject);
+begin
+  self.tmrPause.Enabled := false;
+  if self.tCorrect then
+    self.rightAnswer
+  else
+    self.wrongAnswer;
+
+  self.NextImage;
+end;
+
+procedure TGameWindow.rightAnswer;
+begin
+  inc(self.iScore);
+  self.lblScore.Caption := 'Score: ' + IntToStr(self.iScore);
+  if (self.iScore mod 5 = 0) then
+    self.iTotal := self.iTotal - 1000;
+end;
+
+procedure TGameWindow.wrongAnswer;
+begin
+  inc(iInfections);
+  if iInfections = 3 then
+  begin
+    self.bgameOver := true;
+    self.GameOver;
+    exit;
+  end
+  else
+    self.lblInfections.Caption := 'Infections: ' + IntToStr(iInfections) + '/3';
+
+  MessageDlg(datModule.tblSpamDat['Tip'], mtInformation, [mbRetry], 0);
+end;
+
+procedure TGameWindow.GameOver;
+begin
+  self.imgMain.Top := 0;
+  self.imgMain.Left := 0;
+  self.imgMain.Width := self.ClientWidth;
+  self.imgMain.Height := self.ClientHeight;
+  self.imgMain.Picture.LoadFromFile('rsc/game-over.jpg');
+  self.imgMain.Enabled := false;
+  self.imgMain.Show;
+  self.tmrDestroy.Enabled := true;
+  iDestroyed := 0;
+end;
+
+procedure TGameWindow.tmrDestroyTimer(Sender: TObject);
+var
+spawn : TButton;
+begin
+  if iDestroyed = 150 then
+    exit;
+  spawn := TButton.Create(self);
+  spawn.Left := random(self.ClientWidth);
+  spawn.Top := random(self.ClientHeight);
+  spawn.Width := 120;
+  spawn.Caption := 'INFECTION DETECTED';
+  spawn.Parent := self;
+  spawn.Visible := true;
+  inc(iDestroyed);
 end;
 
 end.

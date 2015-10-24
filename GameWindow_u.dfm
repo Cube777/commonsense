@@ -1,6 +1,6 @@
 object GameWindow: TGameWindow
-  Left = 377
-  Top = 118
+  Left = 291
+  Top = 123
   Cursor = crHourGlass
   BorderStyle = bsNone
   Caption = 'GameWindow'
@@ -31,7 +31,6 @@ object GameWindow: TGameWindow
     Center = True
     Transparent = True
     OnClick = imgMainClick
-    OnDblClick = imgMainDblClick
   end
   object lblScore: TLabel
     Left = 48
@@ -101,5 +100,17 @@ object GameWindow: TGameWindow
     Interval = 500
     OnTimer = tmrFlashTimer
     Left = 32
+  end
+  object tmrPause: TTimer
+    Enabled = False
+    Interval = 1500
+    OnTimer = tmrPauseTimer
+    Left = 64
+  end
+  object tmrDestroy: TTimer
+    Enabled = False
+    Interval = 20
+    OnTimer = tmrDestroyTimer
+    Left = 96
   end
 end
