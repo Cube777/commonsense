@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, ComCtrls, StdCtrls, datModule_u, JPEG;
+  Dialogs, ExtCtrls, ComCtrls, StdCtrls, datModule_u, JPEG, MMSystem;
 
 type
   TGameWindow = class(TForm)
@@ -12,7 +12,10 @@ type
     imgMain: TImage;
     prgbTime: TProgressBar;
     lblScore: TLabel;
-    Label1: TLabel;
+    lblInfections: TLabel;
+    imgResult1: TImage;
+    imgResult2: TImage;
+    tmrFlash: TTimer;
     procedure FormCreate(Sender: TObject);
     procedure tmrLimitTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -22,6 +25,7 @@ type
     function CheckAnswer(x, y : integer) : boolean;
     procedure imgMainClick(Sender: TObject);
     procedure imgMainDblClick(Sender: TObject);
+    procedure tmrFlashTimer(Sender: TObject);
   private
     iTotal, iLeft, iScore : integer;
     tx, ty, bx, by : integer; //Answer co-ordinates
@@ -55,6 +59,8 @@ end;
 
 procedure TGameWindow.FormShow(Sender: TObject);
 begin;
+  iTotal := 10000;
+  iLeft := iTotal;
   self.NextImage;
   //self.imgMain.Picture.LoadFromFile('rsc/spam.bmp');
 
@@ -74,6 +80,9 @@ ans, temp : string;
 begin
   Randomize;
   self.tmrLimit.Enabled := false;
+  self.tmrFlash.Enabled := false;
+  self.imgResult1.Hide;
+  self.imgResult2.Hide;
 
   //Pick new file
   recNum := datModule.tblSpamDat.RecordCount;
@@ -121,6 +130,8 @@ begin
   //Bottom y
   by := StrToInt(ans);
 
+  //Re-enable timer
+  self.tmrLimit.Enabled := true;
 end;
 
 procedure TGameWindow.imgMainClick(Sender: TObject);
@@ -130,10 +141,22 @@ begin
   flg := CheckAnswer(Mouse.CursorPos.X - self.imgMain.Left,
   Mouse.CursorPos.Y - self.imgMain.Top);
 
+  //flg will be true if answer is correct and false if answer is incorrect
+
   if flg then
-    ShowMessage('yay')
+  begin
+    self.imgResult1.Picture.LoadFromFile('rsc/checkmark.bmp');
+    self.imgResult2.Picture.LoadFromFile('rsc/checkmark.bmp');
+    sndPlaySound('rsc/tada.wav', SND_ASYNC);
+
+  end
   else
-    ShowMessage('nah');
+  begin
+    self.imgResult1.Picture.LoadFromFile('rsc/wrong-cross.jpg');
+    self.imgResult2.Picture.LoadFromFile('rsc/wrong-cross.jpg');
+  end;
+
+  self.tmrFlash.Enabled := true;
 end;
 
 function TGameWindow.CheckAnswer(x, y: integer): boolean;
@@ -152,6 +175,12 @@ end;
 procedure TGameWindow.imgMainDblClick(Sender: TObject);
 begin
   self.NextImage;
+end;
+
+procedure TGameWindow.tmrFlashTimer(Sender: TObject);
+begin
+  imgResult1.Visible := not imgResult1.Visible;
+  imgResult2.Visible := not imgResult2.Visible;
 end;
 
 end.

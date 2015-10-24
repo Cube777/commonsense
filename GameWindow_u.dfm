@@ -1,10 +1,11 @@
 object GameWindow: TGameWindow
-  Left = 292
-  Top = 133
+  Left = 377
+  Top = 118
+  Cursor = crHourGlass
   BorderStyle = bsNone
   Caption = 'GameWindow'
   ClientHeight = 668
-  ClientWidth = 985
+  ClientWidth = 979
   Color = clInactiveCaptionText
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,15 +18,15 @@ object GameWindow: TGameWindow
   OnCreate = FormCreate
   OnShow = FormShow
   DesignSize = (
-    985
+    979
     668)
   PixelsPerInch = 96
   TextHeight = 13
   object imgMain: TImage
-    Left = 48
-    Top = 8
-    Width = 895
-    Height = 569
+    Left = 272
+    Top = 120
+    Width = 443
+    Height = 337
     Anchors = [akLeft, akTop, akRight, akBottom]
     Center = True
     Transparent = True
@@ -46,8 +47,8 @@ object GameWindow: TGameWindow
     Font.Style = []
     ParentFont = False
   end
-  object Label1: TLabel
-    Left = 704
+  object lblInfections: TLabel
+    Left = 698
     Top = 627
     Width = 240
     Height = 24
@@ -61,10 +62,30 @@ object GameWindow: TGameWindow
     Font.Style = []
     ParentFont = False
   end
+  object imgResult1: TImage
+    Left = 40
+    Top = 224
+    Width = 169
+    Height = 169
+    Anchors = [akLeft]
+    Center = True
+    Proportional = True
+    Transparent = True
+  end
+  object imgResult2: TImage
+    Left = 770
+    Top = 224
+    Width = 169
+    Height = 169
+    Anchors = [akRight]
+    Center = True
+    Proportional = True
+    Transparent = True
+  end
   object prgbTime: TProgressBar
     Left = 48
     Top = 588
-    Width = 895
+    Width = 889
     Height = 24
     Anchors = [akLeft, akRight, akBottom]
     Position = 100
@@ -74,5 +95,11 @@ object GameWindow: TGameWindow
     Enabled = False
     Interval = 100
     OnTimer = tmrLimitTimer
+  end
+  object tmrFlash: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = tmrFlashTimer
+    Left = 32
   end
 end

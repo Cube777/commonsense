@@ -1,6 +1,6 @@
 object LoginScreen: TLoginScreen
-  Left = 584
-  Top = 282
+  Left = 618
+  Top = 340
   BorderStyle = bsNone
   Caption = 'USE COMMON SENSE'
   ClientHeight = 248
