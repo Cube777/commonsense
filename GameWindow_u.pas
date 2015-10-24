@@ -87,6 +87,7 @@ begin
     self.imgResult2.Picture.LoadFromFile('rsc/wrong-cross.jpg');
     sndPlaySound('rsc/wth.wav', SND_ASYNC);
 
+    self.tCorrect := false;
     self.tmrPause.Enabled := true;
     self.tmrFlash.Enabled := true;
     self.tmrLimit.Enabled := false;
