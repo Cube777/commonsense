@@ -1,7 +1,7 @@
 object datModule: TdatModule
   OldCreateOrder = False
-  Left = 601
-  Top = 248
+  Left = 569
+  Top = 308
   Height = 263
   Width = 341
   object ADOspamData: TADOConnection
@@ -34,15 +34,15 @@ object datModule: TdatModule
   object ADOusers: TADOConnection
     Connected = True
     ConnectionString = 
-      'Provider=Microsoft.Jet.OLEDB.4.0;User ID=Admin;Data Source=users' +
-      '.mdb;Mode=Share Deny None;Persist Security Info=False;Jet OLEDB:' +
-      'System database="";Jet OLEDB:Registry Path="";Jet OLEDB:Database' +
-      ' Password="";Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking ' +
-      'Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk' +
-      ' Transactions=1;Jet OLEDB:New Database Password="";Jet OLEDB:Cre' +
-      'ate System Database=False;Jet OLEDB:Encrypt Database=False;Jet O' +
-      'LEDB:Don'#39't Copy Locale on Compact=False;Jet OLEDB:Compact Withou' +
-      't Replica Repair=False;Jet OLEDB:SFP=False'
+      'Provider=Microsoft.Jet.OLEDB.4.0;User ID=Admin;Data Source=user-' +
+      'data.mdb;Mode=Share Deny None;Persist Security Info=False;Jet OL' +
+      'EDB:System database="";Jet OLEDB:Registry Path="";Jet OLEDB:Data' +
+      'base Password="";Jet OLEDB:Engine Type=5;Jet OLEDB:Database Lock' +
+      'ing Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global ' +
+      'Bulk Transactions=1;Jet OLEDB:New Database Password="";Jet OLEDB' +
+      ':Create System Database=False;Jet OLEDB:Encrypt Database=False;J' +
+      'et OLEDB:Don'#39't Copy Locale on Compact=False;Jet OLEDB:Compact Wi' +
+      'thout Replica Repair=False;Jet OLEDB:SFP=False'
     LoginPrompt = False
     Mode = cmShareDenyNone
     Provider = 'Microsoft.Jet.OLEDB.4.0'

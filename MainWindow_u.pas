@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, ExtCtrls;
+  Dialogs, StdCtrls, Buttons, ExtCtrls, datModule_u;
 
 type
   TMainWindow = class(TForm)
@@ -14,7 +14,7 @@ type
     Label1: TLabel;
     Label2: TLabel;
     lblInfected: TLabel;
-    lblRecord: TLabel;
+    lblHighScore: TLabel;
     Panel1: TPanel;
     imgSpam: TImage;
     Panel2: TPanel;
@@ -23,6 +23,7 @@ type
     procedure btnCloseClick(Sender: TObject);
     procedure btnLogoutClick(Sender: TObject);
     procedure Panel1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -62,6 +63,12 @@ begin
   self.Hide;
   GameWindow.ShowModal;
   self.Show;
+end;
+
+procedure TMainWindow.FormShow(Sender: TObject);
+begin
+  self.lblInfected.Caption := datModule.tblUsers['Infections'];
+  self.lblHighScore.Caption := datModule.tblUsers['HighScore'];
 end;
 
 end.

@@ -1,6 +1,6 @@
 object MainWindow: TMainWindow
-  Left = 367
-  Top = 141
+  Left = 306
+  Top = 192
   Anchors = [akLeft, akTop, akRight, akBottom]
   BorderStyle = bsNone
   Caption = 'MainWindow'
@@ -16,6 +16,7 @@ object MainWindow: TMainWindow
   Position = poDesktopCenter
   WindowState = wsMaximized
   OnCreate = FormCreate
+  OnShow = FormShow
   DesignSize = (
     1014
     579)
@@ -107,7 +108,7 @@ object MainWindow: TMainWindow
       Alignment = taRightJustify
       Caption = '0'
     end
-    object lblRecord: TLabel
+    object lblHighScore: TLabel
       Left = 297
       Top = 80
       Width = 16

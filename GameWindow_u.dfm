@@ -1,6 +1,6 @@
 object GameWindow: TGameWindow
-  Left = 291
-  Top = 123
+  Left = 414
+  Top = 94
   Cursor = crHourGlass
   BorderStyle = bsNone
   Caption = 'GameWindow'
@@ -80,6 +80,36 @@ object GameWindow: TGameWindow
     Center = True
     Proportional = True
     Transparent = True
+  end
+  object Label1: TLabel
+    Left = 417
+    Top = 0
+    Width = 144
+    Height = 24
+    Anchors = [akTop]
+    Caption = 'Objective'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clYellow
+    Font.Height = -27
+    Font.Name = 'Terminal'
+    Font.Style = [fsUnderline]
+    ParentFont = False
+  end
+  object lblObjective: TLabel
+    Left = 85
+    Top = 32
+    Width = 809
+    Height = 24
+    Alignment = taCenter
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Caption = '<insert objective here>'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clYellow
+    Font.Height = -27
+    Font.Name = 'Terminal'
+    Font.Style = []
+    ParentFont = False
   end
   object prgbTime: TProgressBar
     Left = 48

@@ -18,6 +18,8 @@ type
     tmrFlash: TTimer;
     tmrPause: TTimer;
     tmrDestroy: TTimer;
+    Label1: TLabel;
+    lblObjective: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure tmrLimitTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -258,7 +260,20 @@ var
 spawn : TButton;
 begin
   if iDestroyed = 150 then
-    exit;
+  begin
+    datModule.tblUsers.Edit;
+    self.tmrDestroy.Enabled := false;
+    if iScore > StrToInt(datModule.tblUsers['HighScore']) then
+    begin
+      MessageDlg('NEW HIGH SCORE!', mtConfirmation, [mbIgnore], 0);
+      datModule.tblUsers['HighScore'] := IntToStr(iScore);
+    end;
+
+    datModule.tblUsers.FieldByName('Infections').Value := IntToStr(StrToInt(datModule.tblUsers['Infections']) + 1);
+    datModule.tblUsers.Post;
+    self.Close;
+  end;
+
   spawn := TButton.Create(self);
   spawn.Left := random(self.ClientWidth);
   spawn.Top := random(self.ClientHeight);
