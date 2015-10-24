@@ -20,6 +20,13 @@ type
     tmrDestroy: TTimer;
     Label1: TLabel;
     lblObjective: TLabel;
+    pnlBonus: TPanel;
+    tmrBonus: TTimer;
+    imgBonusClose: TImage;
+    Label2: TLabel;
+    Label3: TLabel;
+    btnBAM: TButton;
+    Label4: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure tmrLimitTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -34,6 +41,9 @@ type
     procedure wrongAnswer();
     procedure GameOver();
     procedure tmrDestroyTimer(Sender: TObject);
+    procedure tmrBonusTimer(Sender: TObject);
+    procedure btnBAMClick(Sender: TObject);
+    procedure imgBonusCloseClick(Sender: TObject);
   private
     iTotal, iLeft, iScore, iInfections : integer;
     tx, ty, bx, by, iDestroyed : integer; //Answer co-ordinates
@@ -57,6 +67,11 @@ begin
   self.Height := Screen.Height;
   self.Left := 0;
   self.Top := 0;
+  self.tmrBonus.Interval := random(10000) + 10000;
+  //self.pnlBonus.Width := floor(self.Width / 5);
+  //self.pnlBonus.Height := floor(self.Height / 7);
+  //self.imgBonusClose.Width := floor(self.pnlBonus.Width / 13);
+  //self.imgBonusClose.Height := floor(self.pnlBonus.Height / 9);
 end;
 
 procedure TGameWindow.tmrLimitTimer(Sender: TObject);
@@ -294,6 +309,30 @@ begin
   spawn.Parent := self;
   spawn.Visible := true;
   inc(iDestroyed);
+end;
+
+procedure TGameWindow.tmrBonusTimer(Sender: TObject);
+begin
+  self.tmrBonus.Interval := random(10000) + 10000;
+  self.pnlBonus.Left := random(self.ClientWidth - self.pnlBonus.Width);
+  self.pnlBonus.Top := random(self.ClientHeight - self.pnlBonus.Height);
+  //self.imgBonusClose.Top := random(self.pnlBonus.Height - self.imgBonusClose.Height);
+  //self.imgBonusClose.Left := random(self.pnlBonus.Width - self.imgBonusClose.Width);
+  self.pnlBonus.Show;
+end;
+
+procedure TGameWindow.btnBAMClick(Sender: TObject);
+begin
+  self.tmrLimit.Enabled := false;
+  self.bgameOver := true;
+  self.GameOver;
+end;
+
+procedure TGameWindow.imgBonusCloseClick(Sender: TObject);
+begin
+  self.pnlBonus.Hide;
+  inc(self.iScore, 5);
+  self.lblScore.Caption := 'Score: ' + IntToStr(self.iScore);
 end;
 
 end.

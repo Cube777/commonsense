@@ -59,11 +59,14 @@ begin
 end;
 
 procedure TLoginScreen.FormPaint(Sender: TObject);
+var
+ws : TWelcomeScreen;
 begin
   if ((datModule.tblUsers.RecordCount = 0) and (not showedWelcome)) then
   begin
     self.Hide;
-    WelcomeScreen.ShowModal;
+    ws := TWelcomeScreen.Create(self);
+    ws.ShowModal;
     showedWelcome := true;
     self.Show;
   end;

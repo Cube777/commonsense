@@ -14,7 +14,6 @@ uses
 begin
   Application.Initialize;
   Application.CreateForm(TLoginScreen, LoginScreen);
-  Application.CreateForm(TWelcomeScreen, WelcomeScreen);
   Application.CreateForm(TdatModule, datModule);
   Application.CreateForm(TNewUser, NewUser);
   Application.CreateForm(TMainWindow, MainWindow);
