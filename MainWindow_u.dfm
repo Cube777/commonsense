@@ -166,5 +166,6 @@ object MainWindow: TMainWindow
     Font.Style = []
     ParentFont = False
     TabOrder = 5
+    OnClick = Panel3Click
   end
 end

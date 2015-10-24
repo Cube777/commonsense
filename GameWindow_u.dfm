@@ -1,7 +1,7 @@
 object GameWindow: TGameWindow
   Left = 296
   Top = 33
-  Cursor = crHourGlass
+  Cursor = crArrow
   BorderStyle = bsNone
   Caption = 'GameWindow'
   ClientHeight = 791
@@ -29,7 +29,6 @@ object GameWindow: TGameWindow
     Height = 460
     Anchors = [akLeft, akTop, akRight, akBottom]
     Center = True
-    Transparent = True
     OnClick = imgMainClick
   end
   object lblScore: TLabel

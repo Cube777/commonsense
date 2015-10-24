@@ -183,6 +183,8 @@ begin
     self.lblObjective.Caption := 'Should you trust this website?';
   if temp = 'auth-url' then
     self.lblObjective.Caption := 'Choose the authentic URL';
+  if temp = 'no-hint' then
+    self.lblObjective.Caption := 'Do what you think is acceptable';
 
   //Re-enable timer
   self.tmrLimit.Enabled := true;
@@ -271,6 +273,8 @@ end;
 
 procedure TGameWindow.GameOver;
 begin
+  sndPlaySound('rsc/why.wav', SND_ASYNC);
+  self.pnlBonus.Enabled := false;
   self.imgMain.Top := 0;
   self.imgMain.Left := 0;
   self.imgMain.Width := self.ClientWidth;
@@ -294,7 +298,9 @@ begin
     begin
       MessageDlg('NEW HIGH SCORE!', mtConfirmation, [mbIgnore], 0);
       datModule.tblUsers['HighScore'] := IntToStr(iScore);
-    end;
+    end
+    else
+      MessageDlg('All you got was a new infection.', mtWarning, [mbOK], 0);
 
     datModule.tblUsers['Infections'] := IntToStr(StrToInt(datModule.tblUsers['Infections']) + 1);
     datModule.tblUsers.Post;
@@ -333,6 +339,7 @@ begin
   self.pnlBonus.Hide;
   inc(self.iScore, 5);
   self.lblScore.Caption := 'Score: ' + IntToStr(self.iScore);
+  sndPlaySound('rsc/correct.wav', SND_ASYNC);
 end;
 
 end.

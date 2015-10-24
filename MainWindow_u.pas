@@ -25,6 +25,7 @@ type
     procedure Panel1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Panel2Click(Sender: TObject);
+    procedure Panel3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -79,7 +80,27 @@ procedure TMainWindow.Panel2Click(Sender: TObject);
 var
 tfile : TextFile;
 begin
-//Save all stats to text file
+  AssignFile(tfile, datModule.tblUsers['Username'] + ' - stats.txt');
+  Rewrite(tfile);
+
+  Writeln(tfile, 'Username: ' + datModule.tblUsers['Username']);
+  Writeln(tfile, 'How to get rich fast and easy - goto www.scam.com');
+  Writeln(tfile, 'High score: ' + floattostr(datModule.tblUsers['HighScore']));
+  Writeln(tfile, 'Russian brides in your area - click here to meet them');
+  Writeln(tfile, 'Time infected with ads and the like: ' + floattostr(datModule.tblUsers['Infections']));
+  if datModule.tblUsers['Infections'] > 20 then
+    Writeln(tfile, 'Sufficient training - This person will survive on the Internet')
+  else
+    Writeln(tfile, 'Insufficient training - This person will probably get a virus');
+
+  CloseFile(tfile);
+
+  MessageDlg('User statistics exported to ''' + datModule.tblUsers['Username'] + ' - stats.txt''', mtInformation, [mbOK], 0);
+end;
+
+procedure TMainWindow.Panel3Click(Sender: TObject);
+begin
+  MessageDlg('Please stop pressing big buttons. Please', mtError, [mbNo], 0);
 end;
 
 end.
