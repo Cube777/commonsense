@@ -1,6 +1,6 @@
 object GameWindow: TGameWindow
-  Left = 414
-  Top = 94
+  Left = 319
+  Top = 134
   Cursor = crHourGlass
   BorderStyle = bsNone
   Caption = 'GameWindow'
@@ -101,7 +101,7 @@ object GameWindow: TGameWindow
     Width = 809
     Height = 24
     Alignment = taCenter
-    Anchors = [akTop, akRight]
+    Anchors = [akTop]
     AutoSize = False
     Caption = '<insert objective here>'
     Font.Charset = DEFAULT_CHARSET

@@ -53,8 +53,8 @@ uses Math;
 
 procedure TGameWindow.FormCreate(Sender: TObject);
 begin
-  self.Width := Screen.DesktopWidth;
-  self.Height := Screen.DesktopHeight;
+  self.Width := Screen.Width;
+  self.Height := Screen.Height;
   self.Left := 0;
   self.Top := 0;
 end;
@@ -156,6 +156,18 @@ begin
 
   //Bottom y
   by := StrToInt(ans);
+
+  //Set up objective text
+  temp := datModule.tblSpamDat['Type'];
+
+  if temp = 'download' then
+    self.lblObjective.Caption := 'Find the correct download button';
+  if temp = 'close-button' then
+    self.lblObjective.Caption := 'Find the correct close button';
+  if temp = 'spammy-or-not' then
+    self.lblObjective.Caption := 'Should you trust this website?';
+  if temp = 'auth-url' then
+    self.lblObjective.Caption := 'Choose the authentic URL';
 
   //Re-enable timer
   self.tmrLimit.Enabled := true;
@@ -269,14 +281,14 @@ begin
       datModule.tblUsers['HighScore'] := IntToStr(iScore);
     end;
 
-    datModule.tblUsers.FieldByName('Infections').Value := IntToStr(StrToInt(datModule.tblUsers['Infections']) + 1);
+    datModule.tblUsers['Infections'] := IntToStr(StrToInt(datModule.tblUsers['Infections']) + 1);
     datModule.tblUsers.Post;
     self.Close;
   end;
 
   spawn := TButton.Create(self);
-  spawn.Left := random(self.ClientWidth);
-  spawn.Top := random(self.ClientHeight);
+  spawn.Left := random(self.ClientWidth - spawn.Width);
+  spawn.Top := random(self.ClientHeight - spawn.Height);
   spawn.Width := 120;
   spawn.Caption := 'INFECTION DETECTED';
   spawn.Parent := self;

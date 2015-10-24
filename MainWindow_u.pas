@@ -24,6 +24,7 @@ type
     procedure btnLogoutClick(Sender: TObject);
     procedure Panel1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure Panel2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -42,8 +43,8 @@ uses GameWindow_u;
 procedure TMainWindow.FormCreate(Sender: TObject);
 begin
   self.loggedOut := false;
-  self.Width := Screen.DesktopWidth;
-  self.Height := Screen.DesktopHeight;
+  self.Width := Screen.Width;
+  self.Height := Screen.Height;
   self.imgSpam.Picture.LoadFromFile('rsc\spam.bmp');
 end;
 
@@ -59,9 +60,12 @@ begin
 end;
 
 procedure TMainWindow.Panel1Click(Sender: TObject);
+var
+gw : TGameWindow;
 begin
   self.Hide;
-  GameWindow.ShowModal;
+  gw := TGameWindow.Create(self);
+  gw.ShowModal;
   self.Show;
 end;
 
@@ -69,6 +73,13 @@ procedure TMainWindow.FormShow(Sender: TObject);
 begin
   self.lblInfected.Caption := datModule.tblUsers['Infections'];
   self.lblHighScore.Caption := datModule.tblUsers['HighScore'];
+end;
+
+procedure TMainWindow.Panel2Click(Sender: TObject);
+var
+tfile : TextFile;
+begin
+//Save all stats to text file
 end;
 
 end.

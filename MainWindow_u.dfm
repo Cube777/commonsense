@@ -140,7 +140,7 @@ object MainWindow: TMainWindow
     Width = 273
     Height = 113
     Anchors = [akLeft]
-    Caption = 'SAVE STATS'
+    Caption = 'STATS 2 TXT'
     Color = clSilver
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -149,6 +149,7 @@ object MainWindow: TMainWindow
     Font.Style = []
     ParentFont = False
     TabOrder = 4
+    OnClick = Panel2Click
   end
   object Panel3: TPanel
     Left = 32

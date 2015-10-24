@@ -12,7 +12,7 @@ object LoginScreen: TLoginScreen
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
-  Position = poDesktopCenter
+  Position = poScreenCenter
   OnCreate = FormCreate
   OnPaint = FormPaint
   PixelsPerInch = 96
