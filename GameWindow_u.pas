@@ -18,7 +18,6 @@ type
     tmrFlash: TTimer;
     tmrPause: TTimer;
     tmrDestroy: TTimer;
-    Label1: TLabel;
     lblObjective: TLabel;
     pnlBonus: TPanel;
     tmrBonus: TTimer;
@@ -72,10 +71,16 @@ begin
   self.Top := 0;
   self.tmrBonus.Interval := random(10000) + 10000;
 
+  self.bgameOver := false;
+  iTotal := 10000;
+  iInfections := 0;
+  iScore := 0;
+
   SetLength(iShowed, datModule.tblSpamDat.RecordCount);
   for i := 0 to length(iShowed) - 1 do
     iShowed[i] := i;
 
+  Randomize;
 end;
 
 procedure TGameWindow.tmrLimitTimer(Sender: TObject);
@@ -100,11 +105,6 @@ end;
 
 procedure TGameWindow.FormShow(Sender: TObject);
 begin;
-  self.bgameOver := false;
-  iTotal := 10000;
-  iInfections := 0;
-  iScore := 0;
-  Randomize;
   self.NextImage;
 end;
 
@@ -136,7 +136,6 @@ begin
   begin
     MessageDlg('Well done, you have exhausted the ads... You are a true internet warrior!',
     mtInformation, [mbAbort], 0);
-    self.bgameOver := true;
     self.GameOver;
     exit;
   end;
@@ -206,7 +205,9 @@ begin
   if temp = 'auth-url' then
     self.lblObjective.Caption := 'Choose the authentic URL';
   if temp = 'no-hint' then
-    self.lblObjective.Caption := 'Do what you think is acceptable';
+    self.lblObjective.Caption := 'Do what you must';
+  if temp = 'search-result' then
+    self.lblObjective.Caption := 'Choose the correct search result';
 
   //Re-enable timer
   self.tmrLimit.Enabled := true;
@@ -283,13 +284,11 @@ begin
   inc(iInfections);
   if iInfections = 3 then
   begin
-    self.bgameOver := true;
     self.GameOver;
     exit;
-  end
-  else
-    self.lblInfections.Caption := 'Infections: ' + IntToStr(iInfections) + '/3';
+  end;
 
+  self.lblInfections.Caption := 'Infections: ' + IntToStr(iInfections) + '/3';
   MessageDlg(datModule.tblSpamDat['Tip'], mtInformation, [mbRetry], 0);
 end;
 
@@ -304,8 +303,9 @@ begin
   self.imgMain.Picture.LoadFromFile('rsc/game-over.jpg');
   self.imgMain.Enabled := false;
   self.imgMain.Show;
-  self.tmrDestroy.Enabled := true;
+  self.tmrLimit.Enabled := false;
   iDestroyed := 0;
+  self.tmrDestroy.Enabled := true;
 end;
 
 procedure TGameWindow.tmrDestroyTimer(Sender: TObject);
@@ -314,6 +314,7 @@ spawn : TButton;
 begin
   if iDestroyed = 150 then
   begin
+    self.bgameOver := true;
     datModule.tblUsers.Edit;
     self.tmrDestroy.Enabled := false;
     if iScore > StrToInt(datModule.tblUsers['HighScore']) then
@@ -322,18 +323,19 @@ begin
       datModule.tblUsers['HighScore'] := IntToStr(iScore);
     end
     else
-      MessageDlg('All you got was a new infection.', mtWarning, [mbOK], 0);
+      MessageDlg('All you got was a new infection, not a new high score', mtWarning, [mbOK], 0);
 
     datModule.tblUsers['Infections'] := IntToStr(StrToInt(datModule.tblUsers['Infections']) + 1);
     datModule.tblUsers.Post;
     self.Close;
+    exit;
   end;
 
   spawn := TButton.Create(self);
   spawn.Left := random(self.ClientWidth - spawn.Width);
   spawn.Top := random(self.ClientHeight - spawn.Height);
   spawn.Width := 120;
-  spawn.Caption := 'INFECTION DETECTED';
+  spawn.Caption := 'INFECTIONS DETECTED';
   spawn.Parent := self;
   spawn.Visible := true;
   inc(iDestroyed);
@@ -344,15 +346,11 @@ begin
   self.tmrBonus.Interval := random(10000) + 10000;
   self.pnlBonus.Left := random(self.ClientWidth - self.pnlBonus.Width);
   self.pnlBonus.Top := random(self.ClientHeight - self.pnlBonus.Height);
-  //self.imgBonusClose.Top := random(self.pnlBonus.Height - self.imgBonusClose.Height);
-  //self.imgBonusClose.Left := random(self.pnlBonus.Width - self.imgBonusClose.Width);
   self.pnlBonus.Show;
 end;
 
 procedure TGameWindow.btnBAMClick(Sender: TObject);
 begin
-  self.tmrLimit.Enabled := false;
-  self.bgameOver := true;
   self.GameOver;
 end;
 

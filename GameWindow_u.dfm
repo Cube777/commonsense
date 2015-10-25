@@ -1,10 +1,10 @@
 object GameWindow: TGameWindow
-  Left = 296
-  Top = 33
+  Left = 322
+  Top = 121
   Cursor = crArrow
   BorderStyle = bsNone
   Caption = 'GameWindow'
-  ClientHeight = 791
+  ClientHeight = 682
   ClientWidth = 1082
   Color = clInactiveCaptionText
   Font.Charset = DEFAULT_CHARSET
@@ -19,21 +19,21 @@ object GameWindow: TGameWindow
   OnShow = FormShow
   DesignSize = (
     1082
-    791)
+    682)
   PixelsPerInch = 96
   TextHeight = 13
   object imgMain: TImage
     Left = 272
     Top = 120
     Width = 546
-    Height = 460
+    Height = 351
     Anchors = [akLeft, akTop, akRight, akBottom]
     Center = True
     OnClick = imgMainClick
   end
   object lblScore: TLabel
     Left = 48
-    Top = 750
+    Top = 641
     Width = 128
     Height = 24
     Anchors = [akLeft, akBottom]
@@ -47,7 +47,7 @@ object GameWindow: TGameWindow
   end
   object lblInfections: TLabel
     Left = 801
-    Top = 750
+    Top = 641
     Width = 240
     Height = 24
     Alignment = taRightJustify
@@ -62,7 +62,7 @@ object GameWindow: TGameWindow
   end
   object imgResult1: TImage
     Left = 40
-    Top = 281
+    Top = 231
     Width = 169
     Height = 169
     Anchors = [akLeft]
@@ -72,7 +72,7 @@ object GameWindow: TGameWindow
   end
   object imgResult2: TImage
     Left = 873
-    Top = 281
+    Top = 231
     Width = 169
     Height = 169
     Anchors = [akRight]
@@ -80,27 +80,13 @@ object GameWindow: TGameWindow
     Proportional = True
     Transparent = True
   end
-  object Label1: TLabel
-    Left = 468
-    Top = 0
-    Width = 144
-    Height = 24
-    Anchors = [akTop]
-    Caption = 'Objective'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clYellow
-    Font.Height = -27
-    Font.Name = 'Terminal'
-    Font.Style = [fsUnderline]
-    ParentFont = False
-  end
   object lblObjective: TLabel
-    Left = 136
-    Top = 32
-    Width = 809
+    Left = 289
+    Top = 643
+    Width = 503
     Height = 24
     Alignment = taCenter
-    Anchors = [akTop]
+    Anchors = [akLeft, akRight, akBottom]
     AutoSize = False
     Caption = '<insert objective here>'
     Font.Charset = DEFAULT_CHARSET
@@ -112,7 +98,7 @@ object GameWindow: TGameWindow
   end
   object prgbTime: TProgressBar
     Left = 48
-    Top = 711
+    Top = 602
     Width = 992
     Height = 24
     Anchors = [akLeft, akRight, akBottom]
