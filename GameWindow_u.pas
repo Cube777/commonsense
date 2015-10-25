@@ -46,6 +46,7 @@ type
     procedure imgBonusCloseClick(Sender: TObject);
   private
     iTotal, iLeft, iScore, iInfections : integer;
+    iShowed : array of integer; //Keeps record numbers of ads not yet shown
     tx, ty, bx, by, iDestroyed : integer; //Answer co-ordinates
     tCorrect, bgameOver : boolean;
   public
@@ -62,16 +63,19 @@ uses Math;
 {$R *.dfm}
 
 procedure TGameWindow.FormCreate(Sender: TObject);
+var
+i : integer;
 begin
   self.Width := Screen.Width;
   self.Height := Screen.Height;
   self.Left := 0;
   self.Top := 0;
   self.tmrBonus.Interval := random(10000) + 10000;
-  //self.pnlBonus.Width := floor(self.Width / 5);
-  //self.pnlBonus.Height := floor(self.Height / 7);
-  //self.imgBonusClose.Width := floor(self.pnlBonus.Width / 13);
-  //self.imgBonusClose.Height := floor(self.pnlBonus.Height / 9);
+
+  SetLength(iShowed, datModule.tblSpamDat.RecordCount);
+  for i := 0 to length(iShowed) - 1 do
+    iShowed[i] := i;
+
 end;
 
 procedure TGameWindow.tmrLimitTimer(Sender: TObject);
@@ -115,8 +119,9 @@ end;
 
 procedure TGameWindow.NextImage;
 var
-recNum, i, rand : Integer;
+i, k, rand : Integer;
 ans, temp : string;
+ta : array of integer; //Temp array
 begin
   if self.bgameOver then
     exit;
@@ -127,20 +132,36 @@ begin
   self.imgResult2.Hide;
 
   //Pick new file
-  recNum := datModule.tblSpamDat.RecordCount;
-
-  if recNum = 0 then
+  if length(iShowed) = 0 then
   begin
-    MessageDlg('No spam data found, please make sure spam-data database is readable and populated',
-    mtError, [mbAbort], 0);
-    Application.Terminate;
+    MessageDlg('Well done, you have exhausted the ads... You are a true internet warrior!',
+    mtInformation, [mbAbort], 0);
+    self.bgameOver := true;
+    self.GameOver;
+    exit;
   end;
 
-  rand := random(recNum);
+  rand := random(length(iShowed));
 
   datModule.tblSpamDat.First;
-  for i := 1 to rand do
+  for i := 0 to iShowed[rand] - 1 do
     datModule.tblSpamDat.Next;
+
+  //Remove record from tracking array
+  SetLength(ta, length(iShowed) - 1);
+  k := 0;
+  for i := 0 to length(iShowed) - 1 do
+  begin
+    if not (i = rand) then
+    begin
+      ta[k] := iShowed[i];
+      inc(k);
+    end;
+  end;
+
+  SetLength(iShowed, length(ta));
+  for i := 0 to length(iShowed) - 1 do
+    iShowed[i] := ta[i];
 
   //Load image
   self.imgMain.Picture.LoadFromFile('rsc/' + datModule.tblSpamDat['Filename']);
