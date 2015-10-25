@@ -19,6 +19,7 @@ type
     imgSpam: TImage;
     Panel2: TPanel;
     Panel3: TPanel;
+    svStats: TSaveDialog;
     procedure FormCreate(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnLogoutClick(Sender: TObject);
@@ -80,7 +81,9 @@ procedure TMainWindow.Panel2Click(Sender: TObject);
 var
 tfile : TextFile;
 begin
-  AssignFile(tfile, datModule.tblUsers['Username'] + ' - stats.txt');
+  svStats.FileName := datModule.tblUsers['Username'] + ' - stats.txt';
+  svStats.Execute;
+  AssignFile(tfile, svStats.FileName);
   Rewrite(tfile);
 
   Writeln(tfile, 'Username: ' + datModule.tblUsers['Username']);
@@ -95,7 +98,7 @@ begin
 
   CloseFile(tfile);
 
-  MessageDlg('User statistics exported to ''' + datModule.tblUsers['Username'] + ' - stats.txt''', mtInformation, [mbOK], 0);
+  MessageDlg('User statistics exported to ''' + svStats.FileName + '''', mtInformation, [mbOK], 0);
 end;
 
 procedure TMainWindow.Panel3Click(Sender: TObject);

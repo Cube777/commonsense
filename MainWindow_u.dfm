@@ -168,4 +168,10 @@ object MainWindow: TMainWindow
     TabOrder = 5
     OnClick = Panel3Click
   end
+  object svStats: TSaveDialog
+    DefaultExt = 'txt'
+    Filter = 'Text File|*.txt'
+    Options = [ofHideReadOnly, ofPathMustExist, ofEnableSizing]
+    Title = 'Choose a filepath to save statistics'
+  end
 end
