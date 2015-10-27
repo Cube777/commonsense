@@ -274,8 +274,6 @@ begin
     self.rightAnswer
   else
     self.wrongAnswer;
-
-  self.NextImage;
 end;
 
 procedure TGameWindow.rightAnswer;
@@ -284,6 +282,8 @@ begin
   self.lblScore.Caption := 'Score: ' + IntToStr(self.iScore);
   if (self.iScore mod 5 = 0) then
     self.iTotal := self.iTotal - 1000;
+
+  self.NextImage;
 end;
 
 procedure TGameWindow.wrongAnswer;
@@ -297,12 +297,14 @@ begin
 
   self.lblInfections.Caption := 'Infections: ' + IntToStr(iInfections) + '/3';
   MessageDlg(datModule.tblSpamDat['Tip'], mtInformation, [mbRetry], 0);
+  self.NextImage;
 end;
 
 procedure TGameWindow.GameOver;
 begin
   sndPlaySound('rsc/why.wav', SND_ASYNC);
   self.pnlBonus.Enabled := false;
+  self.imgVidClose.Enabled := false;
   self.imgMain.Top := 0;
   self.imgMain.Left := 0;
   self.imgMain.Width := self.ClientWidth;
