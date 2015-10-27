@@ -82,7 +82,7 @@ begin
 
   datModule.tblUsers.Insert;
   datModule.tblUsers['Username'] := edtUsername.Text;
-  datModule.tblUsers['Password'] := LoginScreen.strEncrypt(edtPassword.Text, edtPassword.Text);
+  datModule.tblUsers['Password'] := edtPassword.Text;
   datModule.tblUsers['Infections'] := '0';
   datModule.tblUsers['HighScore'] := '0';
   datModule.tblUsers.Post;

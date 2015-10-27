@@ -118,7 +118,10 @@ end;
 procedure TGameWindow.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if self.bgameOver then
+  begin
+    self.mpSpam.Stop;
     exit;
+  end;
 
   MessageDlg('Now now, you can only exit when your''e PC is fully infected ;)', mtError, [mbOK], 0);
   Abort;

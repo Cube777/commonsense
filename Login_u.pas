@@ -26,8 +26,6 @@ type
     procedure pnlFakeCloseClick(Sender: TObject);
     procedure virusMessage(str : string);
     procedure btnLoginClick(Sender: TObject);
-    function strEncrypt(str : string; passwd : string) : string;
-    function strDecrypt(str : string; passwd : string) : string;
     procedure btnRegisterClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -123,8 +121,7 @@ begin
     end;
 
     //Check if password is correct
-    temp := tblUsers.FieldByName('Password').Text;
-    temp := LoginScreen.strDecrypt(temp, LoginScreen.edtPassword.Text);
+    temp := tblUsers['Password'];
 
     if temp <> LoginScreen.edtPassword.Text then
     begin
@@ -143,16 +140,6 @@ begin
       self.Show;
   end;
 
-end;
-
-function TLoginScreen.strDecrypt(str, passwd: string): string;
-begin
-  Result := str;
-end;
-
-function TLoginScreen.strEncrypt(str, passwd: string): string;
-begin
-  Result := str;
 end;
 
 procedure TLoginScreen.btnRegisterClick(Sender: TObject);
