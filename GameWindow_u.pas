@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, ComCtrls, StdCtrls, datModule_u, JPEG, MMSystem;
+  Dialogs, ExtCtrls, ComCtrls, StdCtrls, datModule_u, JPEG, MMSystem,
+  MPlayer;
 
 type
   TGameWindow = class(TForm)
@@ -26,6 +27,9 @@ type
     Label3: TLabel;
     btnBAM: TButton;
     Label4: TLabel;
+    pnlVid: TPanel;
+    mpSpam: TMediaPlayer;
+    imgVidClose: TImage;
     procedure FormCreate(Sender: TObject);
     procedure tmrLimitTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -43,6 +47,7 @@ type
     procedure tmrBonusTimer(Sender: TObject);
     procedure btnBAMClick(Sender: TObject);
     procedure imgBonusCloseClick(Sender: TObject);
+    procedure imgVidCloseClick(Sender: TObject);
   private
     iTotal, iLeft, iScore, iInfections : integer;
     iShowed : array of integer; //Keeps record numbers of ads not yet shown
@@ -81,6 +86,8 @@ begin
     iShowed[i] := i;
 
   Randomize;
+  self.mpSpam.FileName := 'rsc/spamvid.wmv';
+  self.mpSpam.Open;
 end;
 
 procedure TGameWindow.tmrLimitTimer(Sender: TObject);
@@ -344,9 +351,25 @@ end;
 procedure TGameWindow.tmrBonusTimer(Sender: TObject);
 begin
   self.tmrBonus.Interval := random(10000) + 10000;
-  self.pnlBonus.Left := random(self.ClientWidth - self.pnlBonus.Width);
-  self.pnlBonus.Top := random(self.ClientHeight - self.pnlBonus.Height);
-  self.pnlBonus.Show;
+
+  if random(2) = 0 then
+  begin
+    self.pnlBonus.Left := random(self.ClientWidth - self.pnlBonus.Width);
+    self.pnlBonus.Top := random(self.ClientHeight - self.pnlBonus.Height);
+    self.pnlBonus.Show;
+  end
+  else
+  begin
+    self.pnlVid.Left := random(self.ClientWidth - self.pnlVid.Width);
+    self.pnlVid.Top := random(self.ClientHeight - self.pnlVid.Height);
+    self.imgVidClose.Top := self.pnlVid.Top - self.imgVidClose.Height;
+    self.imgVidClose.Left := self.pnlVid.Left;
+    self.imgVidClose.Show;
+
+    self.pnlVid.Show;
+    self.imgVidClose.BringToFront;
+    self.mpSpam.Play;
+  end;
 end;
 
 procedure TGameWindow.btnBAMClick(Sender: TObject);
@@ -357,6 +380,18 @@ end;
 procedure TGameWindow.imgBonusCloseClick(Sender: TObject);
 begin
   self.pnlBonus.Hide;
+  inc(self.iScore, 5);
+  self.lblScore.Caption := 'Score: ' + IntToStr(self.iScore);
+  sndPlaySound('rsc/correct.wav', SND_ASYNC);
+end;
+
+procedure TGameWindow.imgVidCloseClick(Sender: TObject);
+begin
+  self.mpSpam.Stop;
+  self.pnlVid.Hide;
+  self.imgVidClose.Hide;
+  self.mpSpam.Rewind;
+
   inc(self.iScore, 5);
   self.lblScore.Caption := 'Score: ' + IntToStr(self.iScore);
   sndPlaySound('rsc/correct.wav', SND_ASYNC);
