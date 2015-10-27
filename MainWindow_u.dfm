@@ -1,6 +1,6 @@
 object MainWindow: TMainWindow
-  Left = 306
-  Top = 192
+  Left = 342
+  Top = 162
   Anchors = [akLeft, akTop, akRight, akBottom]
   BorderStyle = bsNone
   Caption = 'MainWindow'
@@ -31,6 +31,34 @@ object MainWindow: TMainWindow
     Center = True
     Proportional = True
     Transparent = True
+  end
+  object Label3: TLabel
+    Left = 648
+    Top = 544
+    Width = 362
+    Height = 13
+    Anchors = [akRight, akBottom]
+    Caption = '*DISCLAIMER: This whole program is designed to look like an ad!'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label4: TLabel
+    Left = 672
+    Top = 560
+    Width = 337
+    Height = 13
+    Anchors = [akRight, akBottom]
+    Caption = 'The content contained can be an ad or an authentic website'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
   end
   object btnClose: TBitBtn
     Left = 987

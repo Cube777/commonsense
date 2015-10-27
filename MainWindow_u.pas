@@ -20,6 +20,8 @@ type
     Panel2: TPanel;
     Panel3: TPanel;
     svStats: TSaveDialog;
+    Label3: TLabel;
+    Label4: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnLogoutClick(Sender: TObject);
