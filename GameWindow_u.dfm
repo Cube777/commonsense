@@ -1,6 +1,6 @@
 object GameWindow: TGameWindow
-  Left = 322
-  Top = 121
+  Left = 210
+  Top = 58
   Cursor = crArrow
   BorderStyle = bsNone
   Caption = 'GameWindow'
@@ -13,7 +13,7 @@ object GameWindow: TGameWindow
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
-  Position = poDesktopCenter
+  Position = poScreenCenter
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
