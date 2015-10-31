@@ -292,7 +292,7 @@ end;
 procedure TGameWindow.rightAnswer;
 begin
   //Score changes base on time it took to answer
-  inc(self.iScore, floor(prgbTime.Position / 100 * 10));
+  inc(self.iScore, Ceil(prgbTime.Position / 100 * 10));
   self.lblScore.Caption := 'Score: ' + IntToStr(self.iScore);
   if (self.iScore - self.iLastInc > 15) then
   begin
