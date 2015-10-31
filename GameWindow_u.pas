@@ -49,6 +49,7 @@ type
     procedure imgBonusCloseClick(Sender: TObject);
     procedure imgVidCloseClick(Sender: TObject);
     procedure Reset();
+    procedure FormHide(Sender: TObject);
   private
     iTotal, iLeft, iScore, iInfections, iLastInc : integer;
     iShowed : array of integer; //Keeps record numbers of ads not yet shown
@@ -294,7 +295,7 @@ begin
   //Score changes base on time it took to answer
   inc(self.iScore, Ceil(prgbTime.Position / 100 * 10));
   self.lblScore.Caption := 'Score: ' + IntToStr(self.iScore);
-  if (self.iScore - self.iLastInc > 15) then
+  if (self.iScore - self.iLastInc > 20) then
   begin
     self.iTotal := self.iTotal - 1000;
     self.iLastInc := self.iScore;
@@ -373,8 +374,10 @@ end;
 procedure TGameWindow.tmrBonusTimer(Sender: TObject);
 begin
   self.tmrBonus.Interval := random(10000) + 10000;
+  if pnlBonus.Visible or pnlVid.Visible then
+    exit;
 
-  if random(2) = 0 then
+  if random(2) = 10 then
   begin
     self.pnlBonus.Left := random(self.ClientWidth - self.pnlBonus.Width);
     self.pnlBonus.Top := random(self.ClientHeight - self.pnlBonus.Height);
@@ -441,10 +444,22 @@ begin
   for i := 0 to DESTROY_NUM - 1 do
     aDestroyers[i].Hide;
 
+  //Hide all bonus panels
+  pnlVid.Hide;
+  pnlBonus.Hide;
+  imgVidClose.Hide;
+
   //Init ads
   SetLength(iShowed, datModule.tblSpamDat.RecordCount);
   for i := 0 to length(iShowed) - 1 do
     iShowed[i] := i;
+
+  self.mpSpam.Rewind;
+end;
+
+procedure TGameWindow.FormHide(Sender: TObject);
+begin
+  self.mpSpam.Stop;
 end;
 
 end.

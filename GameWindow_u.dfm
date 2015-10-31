@@ -16,6 +16,7 @@ object GameWindow: TGameWindow
   Position = poScreenCenter
   OnClose = FormClose
   OnCreate = FormCreate
+  OnHide = FormHide
   OnShow = FormShow
   DesignSize = (
     1082
