@@ -57,20 +57,16 @@ begin
 end;
 
 procedure TLoginScreen.FormPaint(Sender: TObject);
-var
-ws : TWelcomeScreen;
 begin
   if ((datModule.tblUsers.RecordCount = 0) and (not showedWelcome)) then
   begin
     self.Hide;
-    ws := TWelcomeScreen.Create(self);
-    ws.ShowModal;
+    WelcomeScreen.ShowModal;
     showedWelcome := true;
     self.Show;
   end;
   edtUsername.Clear;
   edtPassword.Clear;
-  Randomize;
 end;
 
 procedure TLoginScreen.pnlSpamClick(Sender: TObject);
@@ -133,11 +129,7 @@ begin
 
     //Open main window
     self.Hide;
-    MainWindow.ShowModal;
-    if not MainWindow.loggedOut then
-      self.Close
-    else
-      self.Show;
+    MainWindow.Show;
   end;
 
 end;

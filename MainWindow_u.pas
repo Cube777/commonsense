@@ -42,11 +42,10 @@ implementation
 
 {$R *.dfm}
 
-uses GameWindow_u;
+uses GameWindow_u, Login_u;
 
 procedure TMainWindow.FormCreate(Sender: TObject);
 begin
-  self.loggedOut := false;
   self.Width := Screen.Width;
   self.Height := Screen.Height;
   self.imgSpam.Picture.LoadFromFile('rsc\spam.bmp');
@@ -54,23 +53,19 @@ end;
 
 procedure TMainWindow.btnCloseClick(Sender: TObject);
 begin
-  self.Close;
+  Application.Terminate;
 end;
 
 procedure TMainWindow.btnLogoutClick(Sender: TObject);
 begin
-  self.loggedOut := true;
-  self.Close;
+  self.Hide;
+  LoginScreen.Show;
 end;
 
 procedure TMainWindow.Panel1Click(Sender: TObject);
-var
-gw : TGameWindow;
 begin
   self.Hide;
-  gw := TGameWindow.Create(self);
-  gw.ShowModal;
-  self.Show;
+  GameWindow.Show;
 end;
 
 procedure TMainWindow.FormShow(Sender: TObject);

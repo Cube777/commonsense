@@ -1,6 +1,6 @@
 object GameWindow: TGameWindow
-  Left = 210
-  Top = 58
+  Left = 257
+  Top = 34
   Cursor = crArrow
   BorderStyle = bsNone
   Caption = 'GameWindow'
@@ -7746,6 +7746,7 @@ object GameWindow: TGameWindow
     Left = 96
   end
   object tmrBonus: TTimer
+    Enabled = False
     OnTimer = tmrBonusTimer
     Left = 128
   end

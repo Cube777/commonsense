@@ -48,21 +48,26 @@ type
     procedure btnBAMClick(Sender: TObject);
     procedure imgBonusCloseClick(Sender: TObject);
     procedure imgVidCloseClick(Sender: TObject);
+    procedure Reset();
   private
-    iTotal, iLeft, iScore, iInfections : integer;
+    iTotal, iLeft, iScore, iInfections, iLastInc : integer;
     iShowed : array of integer; //Keeps record numbers of ads not yet shown
     tx, ty, bx, by, iDestroyed : integer; //Answer co-ordinates
-    tCorrect, bgameOver : boolean;
+    tCorrect : boolean;
+    aDestroyers : array of TButton;
   public
     { Public declarations }
   end;
 
 var
   GameWindow: TGameWindow;
+const
+  DESTROY_NUM = 150;
+  START_TIME = 10000;
 
 implementation
 
-uses Math;
+uses Math, MainWindow_u;
 
 {$R *.dfm}
 
@@ -70,24 +75,35 @@ procedure TGameWindow.FormCreate(Sender: TObject);
 var
 i : integer;
 begin
+  //Init screen size
   self.Width := Screen.Width;
   self.Height := Screen.Height;
   self.Left := 0;
   self.Top := 0;
-  self.tmrBonus.Interval := random(10000) + 10000;
 
-  self.bgameOver := false;
-  iTotal := 10000;
-  iInfections := 0;
-  iScore := 0;
+  //Init game-over buttons
+  SetLength(aDestroyers, DESTROY_NUM);
+  for i := 0 to DESTROY_NUM - 1 do
+  begin
+    aDestroyers[i] := TButton.Create(self);
+    with aDestroyers[i] do
+    begin
+      Caption := 'INFECTIONS DETECTED';
+      Width := 120;
+      Parent := GameWindow;
+      Visible := false;
+    end;
+  end;
 
-  SetLength(iShowed, datModule.tblSpamDat.RecordCount);
-  for i := 0 to length(iShowed) - 1 do
-    iShowed[i] := i;
-
-  Randomize;
+  //Load ad vid
   self.mpSpam.FileName := 'rsc/spamvid.wmv';
   self.mpSpam.Open;
+
+  //Entropy
+  Randomize;
+  self.tmrBonus.Interval := random(10000) + 10000;
+
+  self.Reset;
 end;
 
 procedure TGameWindow.tmrLimitTimer(Sender: TObject);
@@ -104,6 +120,7 @@ begin
     sndPlaySound('rsc/wth.wav', SND_ASYNC);
 
     self.tCorrect := false;
+    self.imgMain.Hide;
     self.tmrPause.Enabled := true;
     self.tmrFlash.Enabled := true;
     self.tmrLimit.Enabled := false;
@@ -112,17 +129,13 @@ end;
 
 procedure TGameWindow.FormShow(Sender: TObject);
 begin;
+  self.Reset;
+  self.tmrBonus.Enabled := true;
   self.NextImage;
 end;
 
 procedure TGameWindow.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  if self.bgameOver then
-  begin
-    self.mpSpam.Stop;
-    exit;
-  end;
-
   MessageDlg('Now now, you can only exit when your''e PC is fully infected ;)', mtError, [mbOK], 0);
   Abort;
 end;
@@ -133,9 +146,6 @@ i, k, rand : Integer;
 ans, temp : string;
 ta : array of integer; //Temp array
 begin
-  if self.bgameOver then
-    exit;
-
   self.iLeft := iTotal;
   self.tmrFlash.Enabled := false;
   self.imgResult1.Hide;
@@ -281,10 +291,14 @@ end;
 
 procedure TGameWindow.rightAnswer;
 begin
-  inc(self.iScore);
+  //Score changes base on time it took to answer
+  inc(self.iScore, floor(prgbTime.Position / 100 * 10));
   self.lblScore.Caption := 'Score: ' + IntToStr(self.iScore);
-  if (self.iScore mod 5 = 0) then
+  if (self.iScore - self.iLastInc > 15) then
+  begin
     self.iTotal := self.iTotal - 1000;
+    self.iLastInc := self.iScore;
+  end;
 
   self.NextImage;
 end;
@@ -306,27 +320,29 @@ end;
 procedure TGameWindow.GameOver;
 begin
   sndPlaySound('rsc/why.wav', SND_ASYNC);
+  self.imgMain.Picture.LoadFromFile('rsc/game-over.jpg');
+
+  //Disable controls
   self.pnlBonus.Enabled := false;
   self.imgVidClose.Enabled := false;
+  self.imgMain.Enabled := false;
+
+  self.tmrLimit.Enabled := false;
+
+  //Fullscreen gameover image
   self.imgMain.Top := 0;
   self.imgMain.Left := 0;
   self.imgMain.Width := self.ClientWidth;
   self.imgMain.Height := self.ClientHeight;
-  self.imgMain.Picture.LoadFromFile('rsc/game-over.jpg');
-  self.imgMain.Enabled := false;
   self.imgMain.Show;
-  self.tmrLimit.Enabled := false;
-  iDestroyed := 0;
+
   self.tmrDestroy.Enabled := true;
 end;
 
 procedure TGameWindow.tmrDestroyTimer(Sender: TObject);
-var
-spawn : TButton;
 begin
-  if iDestroyed = 150 then
+  if iDestroyed = DESTROY_NUM then
   begin
-    self.bgameOver := true;
     datModule.tblUsers.Edit;
     self.tmrDestroy.Enabled := false;
     if iScore > StrToInt(datModule.tblUsers['HighScore']) then
@@ -339,17 +355,18 @@ begin
 
     datModule.tblUsers['Infections'] := IntToStr(StrToInt(datModule.tblUsers['Infections']) + 1);
     datModule.tblUsers.Post;
-    self.Close;
+    self.tmrBonus.Enabled := false;
+    self.Hide;
+    MainWindow.Show;
     exit;
   end;
 
-  spawn := TButton.Create(self);
-  spawn.Left := random(self.ClientWidth - spawn.Width);
-  spawn.Top := random(self.ClientHeight - spawn.Height);
-  spawn.Width := 120;
-  spawn.Caption := 'INFECTIONS DETECTED';
-  spawn.Parent := self;
-  spawn.Visible := true;
+  with aDestroyers[iDestroyed] do
+  begin
+    Left := random(GameWindow.ClientWidth - Width);
+    Top := random(GameWindow.ClientHeight - Height);
+    Visible := true;
+  end;
   inc(iDestroyed);
 end;
 
@@ -400,6 +417,34 @@ begin
   inc(self.iScore, 5);
   self.lblScore.Caption := 'Score: ' + IntToStr(self.iScore);
   sndPlaySound('rsc/correct.wav', SND_ASYNC);
+end;
+
+procedure TGameWindow.Reset;
+var
+i : integer;
+begin
+  //Reset scores
+  iScore := 0;
+  iLastInc := 0;
+  iInfections := 0;
+  iTotal := 10000;
+  iDestroyed := 0;
+  self.lblScore.Caption := 'Score: 0';
+  self.lblInfections.Caption := 'Infections: 0/3';
+
+  //Re-enable controls
+  self.pnlBonus.Enabled := true;
+  self.imgVidClose.Enabled := true;
+  self.imgMain.Enabled := true;
+
+  //Hide all game-over buttons
+  for i := 0 to DESTROY_NUM - 1 do
+    aDestroyers[i].Hide;
+
+  //Init ads
+  SetLength(iShowed, datModule.tblSpamDat.RecordCount);
+  for i := 0 to length(iShowed) - 1 do
+    iShowed[i] := i;
 end;
 
 end.

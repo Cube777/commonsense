@@ -17,5 +17,7 @@ begin
   Application.CreateForm(TdatModule, datModule);
   Application.CreateForm(TNewUser, NewUser);
   Application.CreateForm(TMainWindow, MainWindow);
+  Application.CreateForm(TWelcomeScreen, WelcomeScreen);
+  Application.CreateForm(TGameWindow, GameWindow);
   Application.Run;
 end.

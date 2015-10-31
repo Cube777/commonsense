@@ -1,6 +1,6 @@
 object MainWindow: TMainWindow
-  Left = 342
-  Top = 162
+  Left = 326
+  Top = 210
   Anchors = [akLeft, akTop, akRight, akBottom]
   BorderStyle = bsNone
   Caption = 'MainWindow'
