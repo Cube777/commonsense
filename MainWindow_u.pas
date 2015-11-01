@@ -22,6 +22,9 @@ type
     svStats: TSaveDialog;
     Label3: TLabel;
     Label4: TLabel;
+    pnlEasy: TPanel;
+    pnlHard: TPanel;
+    pnlMedium: TPanel;
     procedure FormCreate(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnLogoutClick(Sender: TObject);
@@ -29,6 +32,9 @@ type
     procedure FormShow(Sender: TObject);
     procedure Panel2Click(Sender: TObject);
     procedure Panel3Click(Sender: TObject);
+    procedure pnlEasyClick(Sender: TObject);
+    procedure pnlMediumClick(Sender: TObject);
+    procedure pnlHardClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -64,14 +70,18 @@ end;
 
 procedure TMainWindow.Panel1Click(Sender: TObject);
 begin
-  self.Hide;
-  GameWindow.Show;
+  self.pnlEasy.Show;
+  self.pnlMedium.Show;
+  self.pnlHard.Show;
 end;
 
 procedure TMainWindow.FormShow(Sender: TObject);
 begin
   self.lblInfected.Caption := datModule.tblUsers['Infections'];
   self.lblHighScore.Caption := datModule.tblUsers['HighScore'];
+  self.pnlEasy.Hide;
+  self.pnlMedium.Hide;
+  self.pnlHard.Hide;
 end;
 
 procedure TMainWindow.Panel2Click(Sender: TObject);
@@ -101,6 +111,27 @@ end;
 procedure TMainWindow.Panel3Click(Sender: TObject);
 begin
   MessageDlg('Please stop pressing big buttons. Please', mtError, [mbNo], 0);
+end;
+
+procedure TMainWindow.pnlEasyClick(Sender: TObject);
+begin
+  GameWindow.START_TIME := 30000;
+  self.Hide;
+  GameWindow.Show;
+end;
+
+procedure TMainWindow.pnlMediumClick(Sender: TObject);
+begin
+  GameWindow.START_TIME := 20000;
+  self.Hide;
+  GameWindow.Show;
+end;
+
+procedure TMainWindow.pnlHardClick(Sender: TObject);
+begin
+  GameWindow.START_TIME := 10000;
+  self.Hide;
+  GameWindow.Show;
 end;
 
 end.

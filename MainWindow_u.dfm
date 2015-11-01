@@ -1,11 +1,11 @@
 object MainWindow: TMainWindow
-  Left = 326
-  Top = 210
+  Left = 276
+  Top = 149
   Anchors = [akLeft, akTop, akRight, akBottom]
   BorderStyle = bsNone
   Caption = 'MainWindow'
-  ClientHeight = 579
-  ClientWidth = 1014
+  ClientHeight = 620
+  ClientWidth = 1131
   Color = clRed
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,23 +18,23 @@ object MainWindow: TMainWindow
   OnCreate = FormCreate
   OnShow = FormShow
   DesignSize = (
-    1014
-    579)
+    1131
+    620)
   PixelsPerInch = 96
   TextHeight = 13
   object imgSpam: TImage
-    Left = 320
-    Top = 8
-    Width = 361
-    Height = 566
+    Left = 326
+    Top = 104
+    Width = 478
+    Height = 511
     Anchors = [akLeft, akTop, akRight, akBottom]
     Center = True
     Proportional = True
     Transparent = True
   end
   object Label3: TLabel
-    Left = 648
-    Top = 544
+    Left = 765
+    Top = 585
     Width = 362
     Height = 13
     Anchors = [akRight, akBottom]
@@ -47,8 +47,8 @@ object MainWindow: TMainWindow
     ParentFont = False
   end
   object Label4: TLabel
-    Left = 672
-    Top = 560
+    Left = 789
+    Top = 601
     Width = 337
     Height = 13
     Anchors = [akRight, akBottom]
@@ -61,7 +61,7 @@ object MainWindow: TMainWindow
     ParentFont = False
   end
   object btnClose: TBitBtn
-    Left = 987
+    Left = 1104
     Top = 0
     Width = 30
     Height = 25
@@ -89,7 +89,7 @@ object MainWindow: TMainWindow
     NumGlyphs = 2
   end
   object btnLogout: TButton
-    Left = 915
+    Left = 1032
     Top = 0
     Width = 75
     Height = 25
@@ -99,8 +99,8 @@ object MainWindow: TMainWindow
     OnClick = btnLogoutClick
   end
   object grpStats: TGroupBox
-    Left = 691
-    Top = 56
+    Left = 808
+    Top = 128
     Width = 321
     Height = 129
     Anchors = [akTop, akRight]
@@ -147,7 +147,7 @@ object MainWindow: TMainWindow
   end
   object Panel1: TPanel
     Left = 32
-    Top = 112
+    Top = 124
     Width = 273
     Height = 113
     Anchors = [akLeft]
@@ -164,7 +164,7 @@ object MainWindow: TMainWindow
   end
   object Panel2: TPanel
     Left = 32
-    Top = 232
+    Top = 252
     Width = 273
     Height = 113
     Anchors = [akLeft]
@@ -181,7 +181,7 @@ object MainWindow: TMainWindow
   end
   object Panel3: TPanel
     Left = 32
-    Top = 353
+    Top = 382
     Width = 273
     Height = 113
     Anchors = [akLeft]
@@ -195,6 +195,60 @@ object MainWindow: TMainWindow
     ParentFont = False
     TabOrder = 5
     OnClick = Panel3Click
+  end
+  object pnlEasy: TPanel
+    Left = 148
+    Top = 24
+    Width = 275
+    Height = 65
+    Anchors = [akTop]
+    Caption = 'EASY'
+    Color = clLime
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -31
+    Font.Name = 'Terminal'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 6
+    Visible = False
+    OnClick = pnlEasyClick
+  end
+  object pnlHard: TPanel
+    Left = 708
+    Top = 24
+    Width = 275
+    Height = 65
+    Anchors = [akTop]
+    Caption = 'HARD'
+    Color = clMaroon
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = cl3DLight
+    Font.Height = -31
+    Font.Name = 'Terminal'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 7
+    Visible = False
+    OnClick = pnlHardClick
+  end
+  object pnlMedium: TPanel
+    Left = 428
+    Top = 24
+    Width = 275
+    Height = 65
+    Anchors = [akTop]
+    Caption = 'MEDIUM'
+    Color = clYellow
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -31
+    Font.Name = 'Terminal'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 8
+    Visible = False
+    OnClick = pnlMediumClick
   end
   object svStats: TSaveDialog
     DefaultExt = 'txt'

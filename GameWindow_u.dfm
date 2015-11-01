@@ -1,6 +1,6 @@
 object GameWindow: TGameWindow
-  Left = 257
-  Top = 34
+  Left = 294
+  Top = 122
   Cursor = crArrow
   BorderStyle = bsNone
   Caption = 'GameWindow'

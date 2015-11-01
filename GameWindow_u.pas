@@ -57,14 +57,13 @@ type
     tCorrect : boolean;
     aDestroyers : array of TButton;
   public
-    { Public declarations }
+    START_TIME : integer;
   end;
 
 var
   GameWindow: TGameWindow;
 const
   DESTROY_NUM = 150;
-  START_TIME = 10000;
 
 implementation
 
@@ -373,11 +372,11 @@ end;
 
 procedure TGameWindow.tmrBonusTimer(Sender: TObject);
 begin
-  self.tmrBonus.Interval := random(10000) + 10000;
+  self.tmrBonus.Interval := random(20000) + 10000;
   if pnlBonus.Visible or pnlVid.Visible then
     exit;
 
-  if random(2) = 10 then
+  if random(2) = 1 then
   begin
     self.pnlBonus.Left := random(self.ClientWidth - self.pnlBonus.Width);
     self.pnlBonus.Top := random(self.ClientHeight - self.pnlBonus.Height);
@@ -430,7 +429,7 @@ begin
   iScore := 0;
   iLastInc := 0;
   iInfections := 0;
-  iTotal := 10000;
+  iTotal := START_TIME;
   iDestroyed := 0;
   self.lblScore.Caption := 'Score: 0';
   self.lblInfections.Caption := 'Infections: 0/3';
