@@ -15,10 +15,10 @@ type
     Label2: TLabel;
     lblInfected: TLabel;
     lblHighScore: TLabel;
-    Panel1: TPanel;
+    pnlStart: TPanel;
     imgSpam: TImage;
-    Panel2: TPanel;
-    Panel3: TPanel;
+    pnlStats: TPanel;
+    pnlFakeExit: TPanel;
     svStats: TSaveDialog;
     Label3: TLabel;
     Label4: TLabel;
@@ -28,10 +28,10 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnLogoutClick(Sender: TObject);
-    procedure Panel1Click(Sender: TObject);
+    procedure pnlStartClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure Panel2Click(Sender: TObject);
-    procedure Panel3Click(Sender: TObject);
+    procedure pnlStatsClick(Sender: TObject);
+    procedure pnlFakeExitClick(Sender: TObject);
     procedure pnlEasyClick(Sender: TObject);
     procedure pnlMediumClick(Sender: TObject);
     procedure pnlHardClick(Sender: TObject);
@@ -68,11 +68,15 @@ begin
   LoginScreen.Show;
 end;
 
-procedure TMainWindow.Panel1Click(Sender: TObject);
+procedure TMainWindow.pnlStartClick(Sender: TObject);
 begin
   self.pnlEasy.Show;
   self.pnlMedium.Show;
   self.pnlHard.Show;
+
+  self.pnlStart.Hide;
+  self.pnlStats.Hide;
+  self.pnlFakeExit.Hide;
 end;
 
 procedure TMainWindow.FormShow(Sender: TObject);
@@ -84,7 +88,7 @@ begin
   self.pnlHard.Hide;
 end;
 
-procedure TMainWindow.Panel2Click(Sender: TObject);
+procedure TMainWindow.pnlStatsClick(Sender: TObject);
 var
 tfile : TextFile;
 begin
@@ -108,7 +112,7 @@ begin
   MessageDlg('User statistics exported to ''' + svStats.FileName + '''', mtInformation, [mbOK], 0);
 end;
 
-procedure TMainWindow.Panel3Click(Sender: TObject);
+procedure TMainWindow.pnlFakeExitClick(Sender: TObject);
 begin
   MessageDlg('Please stop pressing big buttons. Please', mtError, [mbNo], 0);
 end;

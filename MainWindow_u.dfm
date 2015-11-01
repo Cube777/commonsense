@@ -1,6 +1,6 @@
 object MainWindow: TMainWindow
-  Left = 276
-  Top = 149
+  Left = 268
+  Top = 142
   Anchors = [akLeft, akTop, akRight, akBottom]
   BorderStyle = bsNone
   Caption = 'MainWindow'
@@ -145,7 +145,7 @@ object MainWindow: TMainWindow
       Caption = '0'
     end
   end
-  object Panel1: TPanel
+  object pnlStart: TPanel
     Left = 32
     Top = 124
     Width = 273
@@ -160,9 +160,9 @@ object MainWindow: TMainWindow
     Font.Style = []
     ParentFont = False
     TabOrder = 3
-    OnClick = Panel1Click
+    OnClick = pnlStartClick
   end
-  object Panel2: TPanel
+  object pnlStats: TPanel
     Left = 32
     Top = 252
     Width = 273
@@ -177,9 +177,9 @@ object MainWindow: TMainWindow
     Font.Style = []
     ParentFont = False
     TabOrder = 4
-    OnClick = Panel2Click
+    OnClick = pnlStatsClick
   end
-  object Panel3: TPanel
+  object pnlFakeExit: TPanel
     Left = 32
     Top = 382
     Width = 273
@@ -194,7 +194,7 @@ object MainWindow: TMainWindow
     Font.Style = []
     ParentFont = False
     TabOrder = 5
-    OnClick = Panel3Click
+    OnClick = pnlFakeExitClick
   end
   object pnlEasy: TPanel
     Left = 148
