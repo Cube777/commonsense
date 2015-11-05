@@ -77,6 +77,8 @@ begin
   self.pnlStart.Hide;
   self.pnlStats.Hide;
   self.pnlFakeExit.Hide;
+  self.btnClose.Hide;
+  self.btnLogout.Hide;
 end;
 
 procedure TMainWindow.FormShow(Sender: TObject);
@@ -86,6 +88,12 @@ begin
   self.pnlEasy.Hide;
   self.pnlMedium.Hide;
   self.pnlHard.Hide;
+
+  self.pnlStart.Show;
+  self.pnlStats.Show;
+  self.pnlFakeExit.Show;
+  self.btnClose.Show;
+  self.btnLogout.Show;
 end;
 
 procedure TMainWindow.pnlStatsClick(Sender: TObject);
