@@ -15,6 +15,7 @@ object MainWindow: TMainWindow
   OldCreateOrder = False
   Position = poDesktopCenter
   WindowState = wsMaximized
+  OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   DesignSize = (

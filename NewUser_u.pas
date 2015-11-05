@@ -19,6 +19,7 @@ type
     btnCancel: TBitBtn;
     procedure btnCancelClick(Sender: TObject);
     procedure btnRegisterClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -88,6 +89,11 @@ begin
   datModule.tblUsers.Post;
   ShowMessage(edtUsername.Text + ' successfully registered!');
   self.Close;
+end;
+
+procedure TNewUser.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  LoginScreen.Show;
 end;
 
 end.

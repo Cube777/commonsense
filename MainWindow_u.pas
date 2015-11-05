@@ -35,6 +35,7 @@ type
     procedure pnlEasyClick(Sender: TObject);
     procedure pnlMediumClick(Sender: TObject);
     procedure pnlHardClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -144,6 +145,11 @@ begin
   GameWindow.START_TIME := 10000;
   self.Hide;
   GameWindow.Show;
+end;
+
+procedure TMainWindow.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Application.Terminate;
 end;
 
 end.
